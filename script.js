@@ -6,7 +6,7 @@ function Book(title, author, pages, read) {
   this.author = author;
   this.pages = pages;
   this.read = read;
-  this.bkgColor = "hsl(" + Math.floor(Math.random() * 360) + ", 25%, 50%)";
+  this.bkgColor = "hsl(" + Math.floor(Math.random() * 360) + ", 25%, 85%)";
 }
 
 myBook1 = new Book("Title1", "Author1", 1, "true");

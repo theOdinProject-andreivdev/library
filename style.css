@@ -11,7 +11,8 @@
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
-  margin: 10px;
+
+  border-bottom: 1px solid darkgrey;
 }
 
 input,
@@ -25,6 +26,7 @@ select,
 .container {
   overflow-y: scroll;
   height: 100%;
+  width: 95%;
   margin-bottom: 20px;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -35,9 +37,11 @@ select,
 .bookCard {
   display: grid;
   grid-template-rows: 100px 1fr 4fr 1fr 1fr;
-  border: 1px solid black;
-  border-radius: 10px;
-  margin: 10px;
+  border: 1px solid darkgrey;
+  -webkit-box-shadow: 0px 0px 89px -29px rgba(0, 0, 0, 0.59);
+  -moz-box-shadow: 0px 0px 89px -29px rgba(0, 0, 0, 0.59);
+  box-shadow: 0px 0px 89px -29px rgba(0, 0, 0, 0.59);
+  margin: 50px 10px;
   padding: 10px;
   width: 200px;
   height: 400px;
