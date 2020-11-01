@@ -70,8 +70,16 @@ select,
   font-size: small;
 }
 
-.toggleButton,
-.deleteButton {
-  height: 35px;
-  margin: 5px;
+@media only screen and (max-width: 680px) {
+  .form {
+    flex-direction: column;
+    align-items: center;
+  }
+  input,
+  select,
+  .addButton {
+    width: 80%;
+    height: 35px;
+    margin: 10px;
+  }
 }
