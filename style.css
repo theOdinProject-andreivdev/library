@@ -59,13 +59,20 @@ select,
 .bookPages {
   justify-self: center;
   align-self: flex-end;
-  padding-top: 30px;
+  margin-top: 30px;
   font-size: small;
 }
 
 .bookRead {
   justify-self: center;
   align-self: flex-end;
-  padding-top: 30px;
+  margin-top: 30px;
+  margin-bottom: 10px;
   font-size: small;
+}
+
+.toggleButton,
+.deleteButton {
+  height: 35px;
+  margin: 5px;
 }
