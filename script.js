@@ -9,13 +9,17 @@ function Book(title, author, pages, read) {
   this.bkgColor = "hsl(" + Math.floor(Math.random() * 360) + ", 25%, 85%)";
 }
 
-myBook1 = new Book("Title1", "Author1", 1, "true");
-myBook2 = new Book("Title2", "Author2", 1, "false");
-myBook3 = new Book("Title3", "Author3", 1, "true");
+if (localStorage.hasOwnProperty("library")) {
+  library = JSON.parse(localStorage.getItem("library"));
+} else {
+  myBook1 = new Book("Title1", "Author1", 1, "true");
+  myBook2 = new Book("Title2", "Author2", 1, "false");
+  myBook3 = new Book("Title3", "Author3", 1, "true");
 
-addBookToLibrary(myBook1);
-addBookToLibrary(myBook2);
-addBookToLibrary(myBook3);
+  addBookToLibrary(myBook1);
+  addBookToLibrary(myBook2);
+  addBookToLibrary(myBook3);
+}
 
 display();
 
@@ -87,6 +91,8 @@ function display() {
   for (i = 0; i < library.length; i++) {
     displayBook(library[i], i);
   }
+  localStorage.setItem("library", JSON.stringify(library));
+  console.log(JSON.stringify(library));
 }
 
 function resetDisplay() {
@@ -108,4 +114,32 @@ function deleteAction() {
   library.splice(bookId, 1);
   resetDisplay();
   display();
+}
+
+// storage lib
+function storageAvailable(type) {
+  var storage;
+  try {
+    storage = window[type];
+    var x = "__storage_test__";
+    storage.setItem(x, x);
+    storage.removeItem(x);
+    return true;
+  } catch (e) {
+    return (
+      e instanceof DOMException &&
+      // everything except Firefox
+      (e.code === 22 ||
+        // Firefox
+        e.code === 1014 ||
+        // test name field too, because code might not be present
+        // everything except Firefox
+        e.name === "QuotaExceededError" ||
+        // Firefox
+        e.name === "NS_ERROR_DOM_QUOTA_REACHED") &&
+      // acknowledge QuotaExceededError only if there's something already stored
+      storage &&
+      storage.length !== 0
+    );
+  }
 }
