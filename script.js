@@ -1,68 +1,80 @@
-function Book(title, author, pages, read) {
-  this.title = title;
-  this.author = author;
-  this.pages = pages;
-  this.read = read;
-  this.bkgColor = "hsl(" + Math.floor(Math.random() * 360) + ", 25%, 85%)";
+class Book {
+  constructor(_title, _author, _pages, _read, _bkgColor) {
+    this.title = _title;
+    this.author = _author;
+    this.pages = _pages;
+    this.read = _read;
+    this.bkgColor = _bkgColor;
+    this.id = 0;
+  }
+
+  displayBook() {
+    let bookCard = document.createElement("div");
+    bookCard.classList.add("bookCard");
+
+    bookCard.style.backgroundColor = this.bkgColor;
+
+    let bookTitle = document.createElement("div");
+    bookTitle.classList.add("bookTitle");
+    bookTitle.textContent = this.title;
+
+    let bookAuthor = document.createElement("div");
+    bookAuthor.classList.add("bookAuthor");
+    bookAuthor.textContent = this.author;
+
+    let bookPages = document.createElement("div");
+    bookPages.classList.add("bookPages");
+    bookPages.textContent = "Pages: " + this.pages;
+
+    let bookRead = document.createElement("div");
+    bookRead.classList.add("bookRead");
+    if (this.read == "true") bookRead.textContent = "Already read";
+    else bookRead.textContent = "Not read yet";
+
+    let toggleButton = document.createElement("button");
+    toggleButton.classList.add("toggleButton");
+    toggleButton.dataset.bookId = this.id;
+    toggleButton.addEventListener("click", toggleAction);
+    toggleButton.textContent = "Toggle read";
+
+    let deteleButton = document.createElement("button");
+    deteleButton.classList.add("deleteButton");
+    deteleButton.dataset.bookId = this.id;
+    deteleButton.addEventListener("click", deleteAction);
+    deteleButton.textContent = "Delete";
+
+    bookCard.appendChild(bookTitle);
+    bookCard.appendChild(bookAuthor);
+    bookCard.appendChild(bookPages);
+    bookCard.appendChild(bookRead);
+    bookCard.appendChild(toggleButton);
+    bookCard.appendChild(deteleButton);
+
+    container.appendChild(bookCard);
+  }
+
+  updateId(newId) {
+    this.id = newId;
+  }
 }
-
-Book.prototype.displayBook = function (id) {
-  let bookCard = document.createElement("div");
-  bookCard.classList.add("bookCard");
-
-  bookCard.style.backgroundColor = this.bkgColor;
-
-  let bookTitle = document.createElement("div");
-  bookTitle.classList.add("bookTitle");
-  bookTitle.textContent = this.title;
-
-  let bookAuthor = document.createElement("div");
-  bookAuthor.classList.add("bookAuthor");
-  bookAuthor.textContent = this.author;
-
-  let bookPages = document.createElement("div");
-  bookPages.classList.add("bookPages");
-  bookPages.textContent = "Pages: " + this.pages;
-
-  let bookRead = document.createElement("div");
-  bookRead.classList.add("bookRead");
-  if (this.read == "true") bookRead.textContent = "Already read";
-  else bookRead.textContent = "Not read yet";
-
-  let toggleButton = document.createElement("button");
-  toggleButton.classList.add("toggleButton");
-  toggleButton.dataset.bookId = id;
-  toggleButton.addEventListener("click", toggleAction);
-  toggleButton.textContent = "Toggle read";
-
-  let deteleButton = document.createElement("button");
-  deteleButton.classList.add("deleteButton");
-  deteleButton.dataset.bookId = id;
-  deteleButton.addEventListener("click", deleteAction);
-  deteleButton.textContent = "Delete";
-
-  bookCard.appendChild(bookTitle);
-  bookCard.appendChild(bookAuthor);
-  bookCard.appendChild(bookPages);
-  bookCard.appendChild(bookRead);
-  bookCard.appendChild(toggleButton);
-  bookCard.appendChild(deteleButton);
-
-  container.appendChild(bookCard);
-};
 
 let container = document.querySelector(".container");
 let library = [];
 
 //if we have a library stored, used it, else, create some dummies
 
-if (localStorage.hasOwnProperty("library")) {
-  library = JSON.parse(localStorage.getItem("library"));
+if (localStorage.hasOwnProperty("libraryStorage")) {
+  let libraryStorage = JSON.parse(localStorage.getItem("libraryStorage"));
 
-  //really weird bug, I think prototype is erased when loading from storage
-  //so we do it again
-  library.forEach((book) => {
-    book.__proto__ = new Book();
+  libraryStorage.forEach((book) => {
+    book = new Book(
+      book.title,
+      book.author,
+      book.pages,
+      book.read,
+      book.bkgColor
+    );
+    library.push(book);
   });
 } else {
   myBook1 = new Book("Title1", "Author1", 1, "true");
@@ -83,8 +95,8 @@ addButton.addEventListener("click", function () {
   let newAuthor = document.querySelector(".author").value;
   let newPages = document.querySelector(".pages").value;
   let newRead = document.querySelector(".read").value;
-  console.log(newRead);
-  newBook = new Book(newTitle, newAuthor, newPages, newRead);
+  let newBkgColor = "hsl(" + Math.floor(Math.random() * 360) + ", 25%, 85%)";
+  newBook = new Book(newTitle, newAuthor, newPages, newRead, newBkgColor);
 
   addBookToLibrary(newBook);
   display();
@@ -97,10 +109,10 @@ function addBookToLibrary(book) {
 function display() {
   resetDisplay();
   for (i = 0; i < library.length; i++) {
-    library[i].displayBook(i);
+    library[i].updateId(i);
+    library[i].displayBook();
   }
-  localStorage.setItem("library", JSON.stringify(library));
-  console.log(JSON.stringify(library));
+  localStorage.setItem("libraryStorage", JSON.stringify(library));
 }
 
 function resetDisplay() {
