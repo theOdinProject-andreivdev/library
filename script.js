@@ -95,7 +95,7 @@ addButton.addEventListener("click", function () {
   let newAuthor = document.querySelector(".author").value;
   let newPages = document.querySelector(".pages").value;
   let newRead = document.querySelector(".read").value;
-  let newBkgColor = "hsl(" + Math.floor(Math.random() * 360) + ", 25%, 85%)";
+  let newBkgColor = "hsl(" + Math.floor(Math.random() * 360) + ", 25%, 35%)";
   newBook = new Book(newTitle, newAuthor, newPages, newRead, newBkgColor);
 
   addBookToLibrary(newBook);
